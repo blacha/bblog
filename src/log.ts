@@ -1,0 +1,200 @@
+var INSTANCE: Log;
+
+export interface LogStream {
+    setLevel: (level: number) => void;
+    write: (message: LogMessage) => void;
+}
+
+export interface LogMessage {
+    hostname: string;
+    pid?: number;
+    level: number;
+    time: Date;
+    msg: string;
+    v: number;
+    err?: Object;
+}
+
+export class Log {
+    static TRACE = 10;
+    static DEBUG = 20;
+    static INFO = 30;
+    static WARN = 40;
+    static ERROR = 50;
+    static FATAL = 60;
+
+    static LOG_VERSION = 0;
+
+    static LEVELS = {
+        trace: Log.TRACE,
+        debug: Log.DEBUG,
+        info: Log.INFO,
+        warn: Log.WARN,
+        error: Log.ERROR,
+        fatal: Log.FATAL
+    };
+
+    private keys;
+    private parent: Log;
+    private streams: LogStream[];
+
+    public hostname: string;
+
+    constructor(parent: Log, keys?) {
+        this.keys = keys;
+        this.parent = parent;
+    }
+
+    child(keys): Log {
+        return new Log(this, keys);
+    }
+
+    addStream(stream: LogStream): Log {
+        this.streams = this.streams || <LogStream[]> [];
+        this.streams.push(stream);
+        return this;
+    }
+
+    protected addKeys(obj) {
+        if (this.parent) {
+            this.parent.addKeys(obj);
+        }
+        var keys = this.keys;
+        if (keys == null) {
+            return obj;
+        }
+        Object.keys(keys).forEach(function(key) {
+            obj[key] = keys[key];
+        });
+        return obj;
+    }
+
+    public trace(data: Object|string, msg?: string) {
+        this.log(Log.TRACE, data, msg);
+    }
+
+    public debug(data: Object|string, msg?: string) {
+        this.log(Log.DEBUG, data, msg);
+    }
+
+    public info(data: Object|string, msg?: string) {
+        this.log(Log.INFO, data, msg);
+    }
+
+    public warn(data: Object|string, msg?: string) {
+        this.log(Log.WARN, data, msg);
+    }
+
+    public error(data: Object|string, msg?: string) {
+        this.log(Log.ERROR, data, msg);
+    }
+
+    public fatal(data: Object|string, msg?: string) {
+        this.log(Log.FATAL, data, msg);
+    }
+
+    private log(level: number, ...data) {
+        var output: LogMessage = {
+            pid: 0,
+            time: new Date(),
+            hostname: '',
+            level: level,
+            msg: '',
+            v: Log.LOG_VERSION
+        };
+
+        this.addKeys(output);
+        for (var i =0; i < data.length; i ++) {
+            var dataValue = data[i];
+            if (dataValue == null) {
+                continue;
+            }
+            if (typeof dataValue === 'string') {
+                output.msg = output.msg + ' ' + dataValue;
+            } else if (dataValue instanceof Error) {
+                output.err = ErrorSerializer(<Error>dataValue);
+            } else {
+                Object.keys(dataValue).forEach(function(key) {
+                    var value = dataValue[key];
+                    if (value instanceof Error) {
+                        output[key] = ErrorSerializer(<Error>value);
+                    } else {
+                        output[key] = value;
+                    }
+                });
+            }
+        }
+
+        this.write(output);
+    }
+
+    private write(message: LogMessage): boolean {
+        if (this.streams && this.streams.length > 0) {
+            for (var i = 0; i < this.streams.length; i++) {
+                var obj = this.streams[i];
+                obj.write(message);
+            }
+            return true;
+        }
+
+        if (this.parent) {
+            return this.parent.write(message);
+        }
+    }
+}
+
+export function child(keys): Log {
+    return getInstance().child(keys);
+}
+
+export function getInstance(): Log {
+    if (INSTANCE == null) {
+        throw new Error('No BBLog Instance created, run BBLog.createLogger first')
+    }
+    return INSTANCE;
+}
+
+export interface LoggerCreationContext {
+    name: string,
+    hostname: string,
+    streams?: LogStream[],
+    stream?: LogStream
+}
+export function createLogger(obj:LoggerCreationContext) {
+    INSTANCE = new Log(null, { name: obj.name, hostname: obj.hostname });
+    if (obj.streams) {
+        obj.streams.forEach(function(stream){
+            INSTANCE.addStream(stream);
+        })
+    }
+    if (obj.stream) {
+        INSTANCE.addStream(obj.stream);
+    }
+    return INSTANCE;
+}
+
+// Taken from Bunyan :  https://github.com/trentm/node-bunyan/blob/master/lib/bunyan.js
+function getFullErrorStack(ex) {
+    var ret = ex.stack || ex.toString();
+    if (ex.cause && typeof (ex.cause) === 'function') {
+        var cex = ex.cause();
+        if (cex) {
+            ret += '\nCaused by: ' + getFullErrorStack(cex);
+        }
+    }
+    return (ret);
+}
+
+export function ErrorSerializer(err) {
+    if (!err || !err.stack) {
+        return err;
+    }
+
+    return {
+        message: err.message,
+        name: err.name,
+        stack: getFullErrorStack(err),
+        code: err.code,
+        signal: err.signal
+    }
+}
