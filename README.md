@@ -2,18 +2,17 @@
 
 Lightweight Logger (< 1KB gziped) that outputs into a Bunyan compatible JSON output.
 
-Designed for use on the web, with no dependencies.
-
+Designed for use on the web, with no runtime dependencies.
 
 # Example
 
 ```javascript
-var BBLog = require('bblog');
+var BBLog = require('bblog').Log;
 var ConsoleLogStream = require('bblog/build/stream/console.log').ConsoleLogStream;
 var log = BBLog.createLogger({
     name: 'Hello',
     hostname: 'google.com',
-    stream: new ConsoleLogStream()
+    stream: new ConsoleLogStream(BBLog.TRACE)
 });
 
 log.info('Hello World');

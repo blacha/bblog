@@ -15,6 +15,13 @@ export interface LogMessage {
     err?: Object;
 }
 
+export interface LoggerCreationContext {
+    name: string,
+    hostname: string,
+    streams?: LogStream[],
+    stream?: LogStream
+}
+
 export class Log {
     static TRACE = 10;
     static DEBUG = 20;
@@ -47,6 +54,31 @@ export class Log {
 
     child(keys): Log {
         return new Log(this, keys);
+    }
+
+    static getInstance(): Log {
+        if (INSTANCE == null) {
+            throw new Error('No BBLog Instance created, run BBLog.createLogger first')
+        }
+        return INSTANCE;
+    }
+
+    static createLogger(obj: LoggerCreationContext) {
+        INSTANCE = new Log(null, { name: obj.name, hostname: obj.hostname });
+        if (obj.streams && Array.isArray(obj.streams)) {
+            obj.streams.forEach(function(stream) {
+                INSTANCE.addStream(stream);
+            });
+        }
+        if (obj.stream) {
+            INSTANCE.addStream(obj.stream);
+        }
+        return INSTANCE;
+
+    }
+
+    static child(keys): Log {
+        return Log.getInstance().child(keys);
     }
 
     addStream(stream: LogStream): Log {
@@ -104,13 +136,13 @@ export class Log {
         };
 
         this.addKeys(output);
-        for (var i =0; i < data.length; i ++) {
+        for (var i = 0; i < data.length; i++) {
             var dataValue = data[i];
             if (dataValue == null) {
                 continue;
             }
             if (typeof dataValue === 'string') {
-                output.msg = output.msg + ' ' + dataValue;
+                output.msg = output.msg + dataValue;
             } else if (dataValue instanceof Error) {
                 output.err = ErrorSerializer(<Error>dataValue);
             } else {
@@ -141,36 +173,6 @@ export class Log {
             return this.parent.write(message);
         }
     }
-}
-
-export function child(keys): Log {
-    return getInstance().child(keys);
-}
-
-export function getInstance(): Log {
-    if (INSTANCE == null) {
-        throw new Error('No BBLog Instance created, run BBLog.createLogger first')
-    }
-    return INSTANCE;
-}
-
-export interface LoggerCreationContext {
-    name: string,
-    hostname: string,
-    streams?: LogStream[],
-    stream?: LogStream
-}
-export function createLogger(obj:LoggerCreationContext) {
-    INSTANCE = new Log(null, { name: obj.name, hostname: obj.hostname });
-    if (obj.streams) {
-        obj.streams.forEach(function(stream){
-            INSTANCE.addStream(stream);
-        })
-    }
-    if (obj.stream) {
-        INSTANCE.addStream(obj.stream);
-    }
-    return INSTANCE;
 }
 
 // Taken from Bunyan :  https://github.com/trentm/node-bunyan/blob/master/lib/bunyan.js
