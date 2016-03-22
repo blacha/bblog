@@ -1,6 +1,6 @@
 {
   "name": "bblog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Browser Bunyan Logger",
   "main": "build/log.js",
   "typings": "build/log.d.ts",
