@@ -20,6 +20,7 @@ export interface LoggerCreationContext {
     hostname: string,
     streams?: LogStream[],
     stream?: LogStream
+    keys: { [key: string]: any}
 }
 
 export class Log {
@@ -73,6 +74,9 @@ export class Log {
         if (obj.stream) {
             INSTANCE.addStream(obj.stream);
         }
+        if (obj.keys) {
+            INSTANCE.addKeys(obj.keys);
+        }
         return INSTANCE;
 
     }
@@ -87,9 +91,15 @@ export class Log {
         return this;
     }
 
-    protected addKeys(obj) {
+    addKeys(obj) {
+        Object.keys(obj).forEach((key) => {
+            this.keys[key] = obj[key];
+        });
+    }
+
+    protected joinKeys(obj) {
         if (this.parent) {
-            this.parent.addKeys(obj);
+            this.parent.joinKeys(obj);
         }
         var keys = this.keys;
         if (keys == null) {
@@ -135,7 +145,7 @@ export class Log {
             v: Log.LOG_VERSION
         };
 
-        this.addKeys(output);
+        this.joinKeys(output);
         for (var i = 0; i < data.length; i++) {
             var dataValue = data[i];
             if (dataValue == null) {
