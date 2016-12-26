@@ -5,6 +5,7 @@
   "main": "build/log.js",
   "typings": "build/log.d.ts",
   "scripts": {
+    "test": "ospec",
     "build": "tsc",
     "prepublish": "tsc"
   },
@@ -22,6 +23,7 @@
   "author": "Blayne Chard",
   "license": "MIT",
   "devDependencies": {
+    "ospec": "^1.2.1",
     "typescript": "2.1.x"
   }
 }
