@@ -20,7 +20,7 @@ export interface LoggerCreationContext {
     hostname: string,
     streams?: LogStream[],
     stream?: LogStream
-    keys: { [key: string]: any}
+    keys?: { [key: string]: any}
 }
 
 export class Log {
