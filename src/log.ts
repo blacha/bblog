@@ -46,8 +46,6 @@ export class Log {
     private parent: Log;
     private streams: LogStream[];
 
-    public hostname: string;
-
     constructor(parent: Log, keys?) {
         this.keys = keys;
         this.parent = parent;
