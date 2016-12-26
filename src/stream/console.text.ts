@@ -21,7 +21,7 @@ export class ConsoleLogTextStream implements LogStream {
             return;
         }
         var output = [];
-        Object.keys(message).forEach(function (key) {
+        Object.keys(message).forEach(key => {
             if (ConsoleLogTextStream.IGNORED_FIELDS[key]) {
                 return;
             }

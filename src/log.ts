@@ -67,9 +67,7 @@ export class Log {
     static createLogger(obj: LoggerCreationContext) {
         INSTANCE = new Log(null, { name: obj.name, hostname: obj.hostname });
         if (obj.streams && Array.isArray(obj.streams)) {
-            obj.streams.forEach(function(stream) {
-                INSTANCE.addStream(stream);
-            });
+            obj.streams.forEach(stream => INSTANCE.addStream(stream));
         }
         if (obj.stream) {
             INSTANCE.addStream(obj.stream);
@@ -105,9 +103,7 @@ export class Log {
         if (keys == null) {
             return obj;
         }
-        Object.keys(keys).forEach(function(key) {
-            obj[key] = keys[key];
-        });
+        Object.keys(keys).forEach(key => obj[key] = keys[key]);
         return obj;
     }
 
@@ -154,12 +150,12 @@ export class Log {
             if (typeof dataValue === 'string') {
                 output.msg = output.msg + dataValue;
             } else if (dataValue instanceof Error) {
-                output.err = ErrorSerializer(<Error>dataValue);
+                output.err = ErrorSerializer(dataValue);
             } else {
-                Object.keys(dataValue).forEach(function(key) {
+                Object.keys(dataValue).forEach(key => {
                     var value = dataValue[key];
                     if (value instanceof Error) {
-                        output[key] = ErrorSerializer(<Error>value);
+                        output[key] = ErrorSerializer(value);
                     } else {
                         output[key] = value;
                     }
