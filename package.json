@@ -22,6 +22,6 @@
   "author": "Blayne Chard",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^1.8.9"
+    "typescript": "2.1.x"
   }
 }
