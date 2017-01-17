@@ -3,6 +3,15 @@ var INSTANCE: Log;
 export interface LogStream {
     setLevel: (level: number) => void;
     write: (message: LogMessage) => void;
+
+    /**
+     *  Close the log stream
+     *
+     *  No more messages will be written to the stream once .close() has been called.
+     *
+     *  Resolves the promise when the stream has been closed.
+     */
+    close?: () => Promise<void>;
 }
 
 export interface LogMessage {
@@ -45,6 +54,7 @@ export class Log {
     private keys;
     private parent: Log;
     private streams: LogStream[];
+    private closed = false;
 
     constructor(parent: Log, keys?) {
         this.keys = keys;
@@ -165,6 +175,9 @@ export class Log {
     }
 
     private write(message: LogMessage): boolean {
+        if (this.closed) {
+            return;
+        }
         if (this.streams && this.streams.length > 0) {
             for (var i = 0; i < this.streams.length; i++) {
                 var obj = this.streams[i];
@@ -176,6 +189,12 @@ export class Log {
         if (this.parent) {
             return this.parent.write(message);
         }
+    }
+
+    close():Promise<void> {
+        this.closed = true;
+        const closeAllStreams = this.streams.map(s => s.close == null ? null : s.close());
+        return Promise.all(closeAllStreams).then(_ => null);
     }
 }
 
