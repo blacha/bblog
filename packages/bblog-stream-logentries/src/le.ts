@@ -1,4 +1,4 @@
-import {LogStream, LogMessage} from 'bblog';
+import { LogStream, LogMessage } from 'bblog';
 
 var LELogger = require('le_node');
 
@@ -25,7 +25,7 @@ export class LogentriesStream implements LogStream {
             bufferSize: 1000
         };
 
-        if (opts != null ) {
+        if (opts != null) {
             Object.keys(opts).forEach(k => LEOptions[k] = opts[k]);
         }
 
@@ -45,7 +45,7 @@ export class LogentriesStream implements LogStream {
         this.logger.log(LELevel, message);
     }
 
-    close():Promise<void> {
+    close(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.logger.once('buffer drain', () => {
                 this.logger.closeConnection();

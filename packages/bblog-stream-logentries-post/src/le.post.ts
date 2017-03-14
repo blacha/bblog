@@ -1,4 +1,4 @@
-import {LogStream, LogMessage} from 'bblog';
+import { LogStream, LogMessage } from 'bblog';
 import * as https from 'https';
 
 const LE_HOST = 'webhook.logentries.com';
@@ -32,12 +32,12 @@ export class LogentriesPostStream implements LogStream {
         if (this.requests.length > MAX_OUTSTANDING_REQUESTS) {
             return;
         }
-        
+
         this.sendMessage(message);
     }
 
 
-    sendMessage(jsonObj:LogMessage):Promise<void> {
+    sendMessage(jsonObj: LogMessage): Promise<void> {
         var message = JSON.stringify(jsonObj);
         var postOptions = {
             host: LE_HOST,
@@ -49,7 +49,7 @@ export class LogentriesPostStream implements LogStream {
             }
         };
 
-        var promise = new Promise<void>((resolve,reject) => {
+        var promise = new Promise<void>((resolve, reject) => {
             var postReq = https.request(postOptions, function(res) {
                 res.setEncoding('utf8');
                 res.on('data', () => null);
@@ -67,7 +67,7 @@ export class LogentriesPostStream implements LogStream {
             if (promiseIndex > -1) {
                 this.requests.splice(promiseIndex, 1);
             }
-            
+
             if (this.requests.length === 0) {
                 this.requests = [];
             }
@@ -75,7 +75,7 @@ export class LogentriesPostStream implements LogStream {
         return promise;
     }
 
-    close():Promise<void> {
+    close(): Promise<void> {
         return Promise.all(this.requests).then(_ => null);
     }
 }
