@@ -1,0 +1,33 @@
+{
+  "name": "bblog-stream-logentries-post",
+  "version": "0.0.0",
+  "description": "BBLog Logentries post stream",
+  "main": "build/le.post.js",
+  "typings": "build/le.post.d.ts",
+  "scripts": {
+    "test": "ospec",
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:blacha/bblog-stream-logentries-post.git"
+  },
+  "keywords": [
+    "Bunyan",
+    "JSON",
+    "Logger",
+    "Browser",
+    "Log"
+  ],
+  "author": "Blayne Chard",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/es6-promise": "^0.0.32",
+    "@types/node": "^7.0.0",
+    "typescript": "2.1.x"
+  },
+  "dependencies": {
+    "bblog": "1.x.x"
+  }
+}
