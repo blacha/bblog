@@ -1,5 +1,6 @@
 import { Log, LogMessage, LogStream } from '../log';
 
+declare var console;
 export class ConsoleLogTextStream implements LogStream {
     static IGNORED_FIELDS = {
         msg: true,

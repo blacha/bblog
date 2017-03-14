@@ -1,5 +1,6 @@
 import { LogMessage, LogStream } from '../log';
 
+declare var console;
 export class ConsoleLogStream implements LogStream {
 
     constructor(private level: number) {
