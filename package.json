@@ -2,7 +2,10 @@
   "name": "bblog-super",
   "version": "1.0.0",
   "description": "Browser Bunyan Logger",
-  "scripts": {},
+  "scripts": {
+    "build": "lerna bootstrap",
+    "test": "lerna run test"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:blacha/bblog.git"
