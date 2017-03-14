@@ -1,6 +1,6 @@
 {
   "name": "bblog-stream-console",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "BBLog console stream",
   "main": "build/console.log.js",
   "typings": "build/console.log.d.ts",
@@ -24,6 +24,6 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "2.x.x",
-    "bblog": "1.x.x"
+    "bblog": "^2.0.0"
   }
 }

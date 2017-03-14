@@ -1,6 +1,6 @@
 {
   "name": "bblog-stream-logentries-post",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "BBLog Logentries post stream",
   "main": "build/le.post.js",
   "typings": "build/le.post.d.ts",
@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "7.x.x",
-    "bblog": "1.x.x",
+    "bblog": "^2.0.0",
     "typescript": "2.x.x"
   }
 }
