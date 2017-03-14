@@ -23,8 +23,7 @@
   "author": "Blayne Chard",
   "license": "MIT",
   "devDependencies": {
-    "@types/es6-promise": "^0.0.32",
-    "ospec": "^1.2.1",
-    "typescript": "2.1.x"
+    "ospec": "1.x.x",
+    "typescript": "2.x.x"
   }
 }

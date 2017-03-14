@@ -2,14 +2,10 @@
 # yarn lockfile v1
 
 
-"@types/es6-promise@^0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-0.0.32.tgz#3bcf44fb1e429f3df76188c8c6d874463ba371fd"
+ospec@1.x.x:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/ospec/-/ospec-1.2.3.tgz#92e2a458d00ff8547ba03bb0fe859c69103b9f70"
 
-ospec@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/ospec/-/ospec-1.2.1.tgz#4206b45cde9b17b234baf994807cee98e59a8ec7"
-
-typescript@2.1.x:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.4.tgz#b53b69fb841126acb1dd4b397d21daba87572251"
+typescript@2.x.x:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.1.tgz#4862b662b988a4c8ff691cc7969622d24db76ae9"

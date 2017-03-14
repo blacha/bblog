@@ -4,7 +4,11 @@
         "module": "commonjs",
         "outDir": "build/",
         "sourceMap": true,
-        "declaration": true
+        "declaration": true,
+        "lib": [
+            "es2015.promise",
+            "es5"
+        ]
     },
     "exclude": [
         "node_modules",
