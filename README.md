@@ -43,3 +43,23 @@ var childLogger = log.child({key: 'value'});
 childLogger.warn('Child Logger');
 // {"pid":0,"time":"2016-03-21T21:38:40.100Z","hostname":"world.com","level":40,"msg":" Child Logger","v":0,"name":"Hello","key":"value"}
 ```
+
+
+
+# Building
+
+Install lerna
+
+```
+yarn global add lerna
+
+lerna bootstrap
+```
+Build all modules
+```
+lerna run build
+```
+Test all modules
+```
+lerna run test
+```
