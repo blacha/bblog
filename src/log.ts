@@ -1,7 +1,13 @@
 var INSTANCE: Log;
-
+export type LogLevel = 10 | 20 | 30 | 40 | 50 | 60;
 export interface LogStream {
-    setLevel: (level: number) => void;
+    /**
+     * Restrict the output of this stream to this level or higher.
+     */
+    setLevel: (level: LogLevel) => void;
+    /**
+     * Write a message to the stream.
+     */
     write: (message: LogMessage) => void;
 
     /**
@@ -33,16 +39,16 @@ export interface LoggerCreationContext {
 }
 
 export class Log {
-    static TRACE = 10;
-    static DEBUG = 20;
-    static INFO = 30;
-    static WARN = 40;
-    static ERROR = 50;
-    static FATAL = 60;
+    static TRACE: LogLevel = 10;
+    static DEBUG: LogLevel = 20;
+    static INFO: LogLevel = 30;
+    static WARN: LogLevel = 40;
+    static ERROR: LogLevel = 50;
+    static FATAL: LogLevel = 60;
 
     static LOG_VERSION = 0;
 
-    static LEVELS = {
+    static LEVELS: { [key: string]: LogLevel } = {
         trace: Log.TRACE,
         debug: Log.DEBUG,
         info: Log.INFO,
