@@ -24,10 +24,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "7.x.x",
+    "bblog": "1.x.x",
     "typescript": "2.x.x"
   },
   "dependencies": {
-    "bblog": "1.x.x",
     "le_node": "^1.7.0"
   }
 }
