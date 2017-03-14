@@ -1,4 +1,4 @@
-import { LogStream, LogMessage } from 'bblog';
+import { LogMessage, LogStream } from 'bblog';
 import * as https from 'https';
 
 const LE_HOST = 'webhook.logentries.com';

@@ -1,4 +1,4 @@
-import { LogStream, LogMessage } from 'bblog';
+import { LogMessage, LogStream } from 'bblog';
 
 var LELogger = require('le_node');
 
@@ -51,6 +51,6 @@ export class LogentriesStream implements LogStream {
                 this.logger.closeConnection();
                 this.logger.on('disconnected', () => resolve(null));
             });
-        })
+        });
     }
 }
