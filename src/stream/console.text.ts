@@ -1,4 +1,4 @@
-import {Log, LogStream, LogMessage} from '../log';
+import { Log, LogStream, LogMessage } from '../log';
 
 export class ConsoleLogTextStream implements LogStream {
     static IGNORED_FIELDS = {
@@ -9,14 +9,14 @@ export class ConsoleLogTextStream implements LogStream {
         v: true
     };
 
-    constructor(private level:number) {
+    constructor(private level: number) {
     }
 
-    setLevel(level:number) {
+    setLevel(level: number) {
         this.level = level;
     }
 
-    write(message:LogMessage) {
+    write(message: LogMessage) {
         if (message.level < this.level) {
             return;
         }

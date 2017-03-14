@@ -29,7 +29,7 @@ export interface LoggerCreationContext {
     hostname: string,
     streams?: LogStream[],
     stream?: LogStream
-    keys?: { [key: string]: any}
+    keys?: { [key: string]: any }
 }
 
 export class Log {
@@ -92,7 +92,7 @@ export class Log {
     }
 
     addStream(stream: LogStream): Log {
-        this.streams = this.streams || <LogStream[]> [];
+        this.streams = this.streams || <LogStream[]>[];
         this.streams.push(stream);
         return this;
     }
@@ -115,27 +115,27 @@ export class Log {
         return obj;
     }
 
-    public trace(data: Object|string, msg?: string) {
+    public trace(data: Object | string, msg?: string) {
         this.log(Log.TRACE, data, msg);
     }
 
-    public debug(data: Object|string, msg?: string) {
+    public debug(data: Object | string, msg?: string) {
         this.log(Log.DEBUG, data, msg);
     }
 
-    public info(data: Object|string, msg?: string) {
+    public info(data: Object | string, msg?: string) {
         this.log(Log.INFO, data, msg);
     }
 
-    public warn(data: Object|string, msg?: string) {
+    public warn(data: Object | string, msg?: string) {
         this.log(Log.WARN, data, msg);
     }
 
-    public error(data: Object|string, msg?: string) {
+    public error(data: Object | string, msg?: string) {
         this.log(Log.ERROR, data, msg);
     }
 
-    public fatal(data: Object|string, msg?: string) {
+    public fatal(data: Object | string, msg?: string) {
         this.log(Log.FATAL, data, msg);
     }
 
@@ -191,7 +191,7 @@ export class Log {
         }
     }
 
-    close():Promise<void> {
+    close(): Promise<void> {
         this.closed = true;
         const closeAllStreams = this.streams.map(s => s.close == null ? null : s.close());
         return Promise.all(closeAllStreams).then(_ => null);

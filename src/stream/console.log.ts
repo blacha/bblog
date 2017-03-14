@@ -1,15 +1,15 @@
-import {LogStream, LogMessage} from '../log';
+import { LogStream, LogMessage } from '../log';
 
 export class ConsoleLogStream implements LogStream {
 
-    constructor(private level:number) {
+    constructor(private level: number) {
     }
 
-    setLevel(level:number) {
+    setLevel(level: number) {
         this.level = level;
     }
 
-    write(message:LogMessage) {
+    write(message: LogMessage) {
         if (message.level < this.level) {
             return;
         }

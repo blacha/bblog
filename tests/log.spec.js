@@ -11,13 +11,13 @@ o.spec('BBlog', () => {
 
     o.spec('getInstance', () => {
         o('should throw a error if none exist', () => {
-            try { 
+            try {
                 Log.getInstance();
                 o(false).equals(true);
-            } catch(e) {
+            } catch (e) {
                 o(e.message.indexOf('No BBLog Instance')).equals(0);
             }
-        })
+        });
 
         o('should get existing instance', () => {
             var logger = Log.createLogger(loggerCtx);
@@ -28,5 +28,5 @@ o.spec('BBlog', () => {
             o(currentLogger.keys.hostname).equals(loggerCtx.hostname);
         });
     });
- 
+
 });
