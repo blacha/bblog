@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:blacha/bblog-stream-logentries.git"
+    "url": "git@github.com:blacha/bblog.git"
   },
   "keywords": [
     "Bunyan",
@@ -23,7 +23,7 @@
   "author": "Blayne Chard",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^7.0.0",
+    "@types/node": "7.x.x",
     "typescript": "2.x.x"
   },
   "dependencies": {
