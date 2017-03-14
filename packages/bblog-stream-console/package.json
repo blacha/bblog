@@ -1,0 +1,29 @@
+{
+  "name": "bblog-stream-console",
+  "version": "1.0.0",
+  "description": "BBLog console stream",
+  "main": "build/console.log.js",
+  "typings": "build/console.log.d.ts",
+  "scripts": {
+    "test": "echo",
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:blacha/bblog.git"
+  },
+  "keywords": [
+    "Bunyan",
+    "JSON",
+    "Logger",
+    "Browser",
+    "Log"
+  ],
+  "author": "Blayne Chard",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "2.x.x",
+    "bblog": "1.x.x"
+  }
+}
