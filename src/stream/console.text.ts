@@ -1,4 +1,4 @@
-import { Log, LogStream, LogMessage } from '../log';
+import { Log, LogMessage, LogStream } from '../log';
 
 export class ConsoleLogTextStream implements LogStream {
     static IGNORED_FIELDS = {
@@ -30,7 +30,7 @@ export class ConsoleLogTextStream implements LogStream {
                 value = JSON.stringify(value);
             }
 
-            output.push(`[${key}: ${value}]`)
+            output.push(`[${key}: ${value}]`);
         });
 
         var outputStr = output.join(' ') + ' ' + message.msg;
@@ -42,7 +42,7 @@ export class ConsoleLogTextStream implements LogStream {
         }
 
         if (message.level > Log.DEBUG) {
-            return console.info(outputStr)
+            return console.info(outputStr);
         }
 
         console.log(outputStr);

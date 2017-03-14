@@ -25,11 +25,11 @@ export interface LogMessage {
 }
 
 export interface LoggerCreationContext {
-    name: string,
-    hostname: string,
-    streams?: LogStream[],
-    stream?: LogStream
-    keys?: { [key: string]: any }
+    name: string;
+    hostname: string;
+    streams?: LogStream[];
+    stream?: LogStream;
+    keys?: { [key: string]: any };
 }
 
 export class Log {
@@ -51,23 +51,9 @@ export class Log {
         fatal: Log.FATAL
     };
 
-    private keys;
-    private parent: Log;
-    private streams: LogStream[];
-    private closed = false;
-
-    constructor(parent: Log, keys?) {
-        this.keys = keys;
-        this.parent = parent;
-    }
-
-    child(keys): Log {
-        return new Log(this, keys);
-    }
-
     static getInstance(): Log {
         if (INSTANCE == null) {
-            throw new Error('No BBLog Instance created, run BBLog.createLogger first')
+            throw new Error('No BBLog Instance created, run BBLog.createLogger first');
         }
         return INSTANCE;
     }
@@ -91,6 +77,20 @@ export class Log {
         return Log.getInstance().child(keys);
     }
 
+    private keys;
+    private parent: Log;
+    private streams: LogStream[];
+    private closed = false;
+
+    constructor(parent: Log, keys?) {
+        this.keys = keys;
+        this.parent = parent;
+    }
+
+    child(keys): Log {
+        return new Log(this, keys);
+    }
+
     addStream(stream: LogStream): Log {
         this.streams = this.streams || <LogStream[]>[];
         this.streams.push(stream);
@@ -103,16 +103,10 @@ export class Log {
         });
     }
 
-    protected joinKeys(obj) {
-        if (this.parent) {
-            this.parent.joinKeys(obj);
-        }
-        var keys = this.keys;
-        if (keys == null) {
-            return obj;
-        }
-        Object.keys(keys).forEach(key => obj[key] = keys[key]);
-        return obj;
+    close(): Promise<void> {
+        this.closed = true;
+        const closeAllStreams = this.streams.map(s => s.close == null ? null : s.close());
+        return Promise.all(closeAllStreams).then(_ => null);
     }
 
     public trace(data: Object | string, msg?: string) {
@@ -139,12 +133,24 @@ export class Log {
         this.log(Log.FATAL, data, msg);
     }
 
+    protected joinKeys(obj) {
+        if (this.parent) {
+            this.parent.joinKeys(obj);
+        }
+        var keys = this.keys;
+        if (keys == null) {
+            return obj;
+        }
+        Object.keys(keys).forEach(key => obj[key] = keys[key]);
+        return obj;
+    }
+
     private log(level: number, ...data) {
         var output: LogMessage = {
             pid: 0,
             time: new Date(),
             hostname: '',
-            level: level,
+            level,
             msg: '',
             v: Log.LOG_VERSION
         };
@@ -191,11 +197,6 @@ export class Log {
         }
     }
 
-    close(): Promise<void> {
-        this.closed = true;
-        const closeAllStreams = this.streams.map(s => s.close == null ? null : s.close());
-        return Promise.all(closeAllStreams).then(_ => null);
-    }
 }
 
 // Taken from Bunyan :  https://github.com/trentm/node-bunyan/blob/master/lib/bunyan.js
@@ -221,5 +222,5 @@ export function ErrorSerializer(err) {
         stack: getFullErrorStack(err),
         code: err.code,
         signal: err.signal
-    }
+    };
 }

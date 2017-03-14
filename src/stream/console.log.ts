@@ -1,4 +1,4 @@
-import { LogStream, LogMessage } from '../log';
+import { LogMessage, LogStream } from '../log';
 
 export class ConsoleLogStream implements LogStream {
 
